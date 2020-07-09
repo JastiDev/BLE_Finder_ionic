@@ -13,15 +13,24 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-card-content ion-item *ngFor="let device of devices; let i=index" style="border:2px solid grey;"
+    <ion-card-content ion-item *ngFor="let device of deviceService.devices; let i=index" style="border:2px solid grey;"
       (click)="onClickItem(i)">
       <p>{{device.name || 'Unnamed'}}</p>
       <p>{{device.id}}</p>
       <p>RSSI: {{device.rssi}}</p>
-      <p>Dist(m): {{convertRssiToDistance(device.rssi)}}</p>
+      <p>Dist(m): {{deviceService.convertRssiToDistance(device.rssi)}}</p>
     </ion-card-content>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button size="small" color="primary" (click)="onClickDraw()">
+      <ion-icon name="disc-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <app-mapview *ngIf="isShowMap" (closeMapview)="toggleShowMap(false)">
 </app-mapview>
+
+<app-radarview *ngIf="isShowRadar" (closeRadarview)="toggleShowRadar(false)">
+</app-radarview>

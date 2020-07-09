@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { MapviewComponent } from "./mapview/mapview.component";
+import { RadarviewComponent } from "./radarview/radarview.component";
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { MapviewComponent } from "./mapview/mapview.component";
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, MapviewComponent]
+  declarations: [HomePage, MapviewComponent, RadarviewComponent]
 })
 export class HomePageModule {}

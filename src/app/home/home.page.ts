@@ -1,11 +1,10 @@
-import { Component, NgZone, OnInit } from "@angular/core";
-import { BLE } from '@ionic-native/ble/ngx';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
 import { GeolocService } from "../services/geoloc.service";
 import { ScreenOrientation } from "@ionic-native/screen-orientation/ngx";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
 import { Platform } from "@ionic/angular";
+import { DeviceService } from '../services/device.service';
 
 @Component({
   selector: "app-home",
@@ -13,13 +12,9 @@ import { Platform } from "@ionic/angular";
   styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
-  devices: any[] = [];
-  private bleScanSubscription: Subscription;
-
   constructor(
-    private ble: BLE,
-    private ngZone: NgZone,
     public geolocService: GeolocService,
+    public deviceService: DeviceService,
     private androidPermissions: AndroidPermissions,
     private locationAccuracy: LocationAccuracy,
     private screenOrientation: ScreenOrientation,
@@ -110,78 +105,19 @@ export class HomePage implements OnInit {
     this.geolocService.startGeolocation(() => {
       this.loadText = "";
     });
+
+    this.deviceService.scan();
   }
 
   ionViewWillLeave() {
     console.log("ionViewWillLeave disconnecting Bluetooth");
-    this.bleScanSubscription.unsubscribe();
+    this.deviceService.bleScanSubscription.unsubscribe();
   }
 
   scan() {
-    this.devices = [];
-    this.bleScanSubscription = this.ble
-      .scan([], 15)
-      .subscribe((device) => this.onDeviceDiscovered(device));
+    
   }
 
-  onDeviceDiscovered(device) {
-    console.log("Discovered" + JSON.stringify(device, null, 2));
-    this.ngZone.run(() => {
-      this.devices.push(device);
-      console.log(device);
-    });
-  }
-
-  colonedMac(mac) {
-    return mac.replace(/(..?)/g, "$1:").slice(0, -1).toUpperCase();
-  }
-
-  convertRssiToPercent(
-    rssi: number,
-    measuredRssiAt1Meter = -69,
-    environmentalScale = 2
-  ): number {
-    const minRSSI = -35;
-    const maxRSSI = -100;
-    if (rssi) {
-      if (rssi > minRSSI) {
-        rssi = minRSSI + 1;
-      }
-      if (rssi < maxRSSI) {
-        rssi = maxRSSI;
-      }
-
-      rssi -= minRSSI;
-      let percent = 1 - rssi / (maxRSSI - minRSSI);
-
-      //window["LOG"] && console.log("percent",percent);
-
-      return percent * 100;
-    } else {
-      return 0;
-    }
-  }
-
-  convertRssiToDistance(
-    rssi: number,
-    measuredRssiAt1Meter = -69,
-    environmentalScale = 2
-  ): number {
-    if (rssi) {
-      let distance = Math.pow(
-        10,
-        (measuredRssiAt1Meter - rssi) / (10 * environmentalScale)
-      );
-      if (distance > 15) {
-        distance = 15;
-      } else if (distance < 0.1) {
-        distance = 0.1;
-      }
-      return +distance.toFixed(1);
-    } else {
-      return 3;
-    }
-  }
 
   onClickItem(i: number) {
     this.toggleShowMap(true);
@@ -190,5 +126,16 @@ export class HomePage implements OnInit {
   isShowMap = false;
   toggleShowMap(tf) {
     this.isShowMap = tf;
+  }
+
+  onClickDraw() {
+    this.toggleShowRadar(true);
+  }
+  isShowRadar = false;
+  toggleShowRadar(tf) {
+    this.isShowRadar = tf;
+  }
+  onClickRadar() {
+    this.toggleShowRadar(true);
   }
 }

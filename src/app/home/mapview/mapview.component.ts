@@ -66,7 +66,7 @@ export class MapviewComponent implements AfterViewInit {
   longitude = 0;
   processGeo = null;
   startGeolocation() {
-    this.processGeo = setInterval(() => {
+    // this.processGeo = setInterval(() => {
       this.isGeoLoaded = this.geolocService.isGeoLoaded;
       this.latitude = this.geolocService.latitude;
       this.longitude = this.geolocService.longitude;
@@ -76,7 +76,7 @@ export class MapviewComponent implements AfterViewInit {
       } catch (err) {
         console.log(err);
       }
-    }, 200);
+    // }, 200);
   }
 
   heading = 0;
@@ -113,7 +113,7 @@ export class MapviewComponent implements AfterViewInit {
       console.log(this.latitude, this.longitude);
       this.map = L.map("map", {
         center: [this.latitude, this.longitude],
-        zoom: 17,
+        zoom: 19,
         attributionControl: false,
       });
 
@@ -134,7 +134,7 @@ export class MapviewComponent implements AfterViewInit {
         title: "Origin",
         icon: blueIcon,
         alt: "+",
-        draggable: false,
+        draggable: true,
         rotationAngle: this.heading,
       }).addTo(this.map);
     }, 1000);
