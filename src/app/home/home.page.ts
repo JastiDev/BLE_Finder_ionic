@@ -4,7 +4,8 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation/ngx";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
 import { Platform } from "@ionic/angular";
-import { DeviceService } from '../services/device.service';
+import { DeviceService } from "../services/device.service";
+import { WebIntent } from "@ionic-native/web-intent/ngx";
 
 @Component({
   selector: "app-home",
@@ -18,7 +19,8 @@ export class HomePage implements OnInit {
     private androidPermissions: AndroidPermissions,
     private locationAccuracy: LocationAccuracy,
     private screenOrientation: ScreenOrientation,
-    private platform: Platform
+    private platform: Platform,
+    private webIntent: WebIntent
   ) {}
 
   ngOnInit() {
@@ -114,13 +116,20 @@ export class HomePage implements OnInit {
     this.deviceService.bleScanSubscription.unsubscribe();
   }
 
-  scan() {
-    
-  }
-
+  scan() {}
 
   onClickItem(i: number) {
-    this.toggleShowMap(true);
+    // this.toggleShowMap(true);
+    const options = {
+      action: "com.example.helloworld.VIEW_AR",
+      extras: {
+        strId: this.deviceService.devices[i].id,
+      },
+    };
+
+    this.webIntent
+      .startActivity(options)
+      .then(this.onSuccessIntent, this.onErrorIntent);
   }
 
   isShowMap = false;
@@ -136,6 +145,23 @@ export class HomePage implements OnInit {
     this.isShowRadar = tf;
   }
   onClickRadar() {
-    this.toggleShowRadar(true);
+    // this.toggleShowRadar(true);
+
+    const options = {
+      action: "com.example.helloworld.VIEW_AR",
+      extras: {
+        strId: "111111",
+      },
+    };
+
+    this.webIntent
+      .startActivity(options)
+      .then(this.onSuccessIntent, this.onErrorIntent);
+  }
+
+  onSuccessIntent() {}
+
+  onErrorIntent() {
+    alert("Error");
   }
 }

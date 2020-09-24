@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { RouteReuseStrategy } from "@angular/router";
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
+import { SplashScreen } from "@ionic-native/splash-screen/ngx";
+import { StatusBar } from "@ionic-native/status-bar/ngx";
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from "./app.component";
+import { AppRoutingModule } from "./app-routing.module";
 import { BLE } from "@ionic-native/ble/ngx";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
@@ -17,6 +17,7 @@ import {
   DeviceOrientationCompassHeading,
 } from "@ionic-native/device-orientation/ngx";
 import { ScreenOrientation } from "@ionic-native/screen-orientation/ngx";
+import { WebIntent } from "@ionic-native/web-intent/ngx";
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +32,8 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation/ngx";
     LocationAccuracy,
     Geolocation,
     DeviceOrientation,
-    ScreenOrientation
+    ScreenOrientation,
+    WebIntent,
   ],
   bootstrap: [AppComponent],
 })

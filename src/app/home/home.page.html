@@ -13,8 +13,12 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-card-content ion-item *ngFor="let device of deviceService.devices; let i=index" style="border:2px solid grey;"
-      (click)="onClickItem(i)">
+    <ion-card-content
+      ion-item
+      *ngFor="let device of deviceService.devices; let i=index"
+      style="border: 2px solid grey;"
+      (click)="onClickItem(i)"
+    >
       <p>{{device.name || 'Unnamed'}}</p>
       <p>{{device.id}}</p>
       <p>RSSI: {{device.rssi}}</p>
@@ -23,7 +27,7 @@
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button size="small" color="primary" (click)="onClickDraw()">
+    <ion-fab-button size="small" color="primary" (click)="onClickRadar()">
       <ion-icon name="disc-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

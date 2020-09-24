@@ -9,14 +9,19 @@ export class DeviceService {
   devices: any[] = [];
   arrShow: any[] = [];
   bleScanSubscription: Subscription;
+  isSubscribed = false;
 
   constructor(private ble: BLE, private ngZone: NgZone) {}
 
   scan() {
+    if (this.isSubscribed) return;
     this.devices = [];
     this.bleScanSubscription = this.ble
       .startScan([])
-      .subscribe((device) => this.onDeviceDiscovered(device));
+      .subscribe((device) => {
+        this.onDeviceDiscovered(device);
+        this.isSubscribed = true;
+      });
   }
 
   onDeviceDiscovered(device) {
