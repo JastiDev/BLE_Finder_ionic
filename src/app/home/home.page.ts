@@ -6,6 +6,8 @@ import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
 import { Platform } from "@ionic/angular";
 import { DeviceService } from "../services/device.service";
 import { WebIntent } from "@ionic-native/web-intent/ngx";
+import { ModalController } from "@ionic/angular";
+import { MyModalPage } from '../my-modal/my-modal.page';
 
 @Component({
   selector: "app-home",
@@ -20,7 +22,8 @@ export class HomePage implements OnInit {
     private locationAccuracy: LocationAccuracy,
     private screenOrientation: ScreenOrientation,
     private platform: Platform,
-    private webIntent: WebIntent
+    private webIntent: WebIntent,
+    public modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -156,12 +159,33 @@ export class HomePage implements OnInit {
 
     this.webIntent
       .startActivity(options)
-      .then(this.onSuccessIntent, this.onErrorIntent);
+      .then(this.onSuccessIntent, this.onErrorIntent.bind(this));
   }
 
   onSuccessIntent() {}
 
   onErrorIntent() {
-    alert("Error");
+    // alert("Error");
+    this.openModal();
+  }
+
+  dataReturned: any;
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: MyModalPage,
+      componentProps: {
+        paramID: 123,
+        paramTitle: "Test Title",
+      },
+    });
+
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+        this.dataReturned = dataReturned.data;
+        //alert('Modal Sent Data :'+ dataReturned);
+      }
+    });
+
+    return await modal.present();
   }
 }

@@ -1,0 +1,18 @@
+<ion-content>
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="closeModal()">
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div style="height:100%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+      <ion-text color="secondary" style="text-align: center; padding:20px;" size="large">
+        Please install this app on your phone to do spatial tracking using ARCore.
+      </ion-text>
+    <ion-button href="https://play.google.com/store/apps/details?id=com.purelocate.ble_ar">
+      <ion-icon name="logo-google-playstore" slot="start"></ion-icon>
+      Download
+    </ion-button>
+  </div>
+
+</ion-content>
